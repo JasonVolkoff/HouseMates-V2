@@ -1,23 +1,29 @@
-import React, { Component } from "react";
-import { Routes, Route } from "react-router-dom";
-import ProfilePage from "./pages/profilePage";
-import Navbar from "./components/navbar";
-import HomePage from "./pages/homePage";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import NotFound from "./components/NotFound";
+import Layout from "./hocs/Layout";
+import PrivateRoute from "./components/privateRoute";
+import HomePage from "./pages/HomePage";
+import HousePage from "./pages/HousePage";
+import SignUpPage from "./pages/SignUpPage";
+import LoginPage from "./pages/LoginPage";
+import { Provider } from "react-redux";
+import store from "./store";
 
-export default class App extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <>
-                <Navbar />
+const App = () => (
+    <Provider store={store}>
+        <Router>
+            <Layout>
                 <Routes>
-                    <Route element={<ProfilePage />} path="/profile" />
-                    <Route element={<HomePage />} path="/" exact />
+                    <PrivateRoute path="/" element={HomePage} />
+                    <PrivateRoute path="/my-house" element={HousePage} />
+                    <Route path="/login" element={LoginPage} />
+                    <Route path="/signup" element={SignUpPage} />
+                    <Route element={NotFound} />
                 </Routes>
-            </>
-        );
-    }
-}
+            </Layout>
+        </Router>
+    </Provider>
+);
+
+export default App;
