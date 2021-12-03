@@ -20,7 +20,7 @@ axiosInstance.interceptors.response.use(
             error.response.status === 401 &&
             originalRequest.url === baseURL + "token/refresh/"
         ) {
-            window.location.href = "/";
+            window.location.href = "/login";
             return Promise.reject(error);
         }
 
@@ -67,11 +67,11 @@ axiosInstance.interceptors.response.use(
                         tokenParts.exp,
                         now
                     );
-                    window.location.href = "/";
+                    window.location.href = "/login";
                 }
             } else {
                 console.log("Refresh token not available.");
-                window.location.href = "/";
+                window.location.href = "/login";
             }
         }
 

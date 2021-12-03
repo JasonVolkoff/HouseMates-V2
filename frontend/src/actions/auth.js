@@ -7,18 +7,13 @@ import {
     LOGIN_FAIL,
     LOGOUT,
 } from "./types";
+import axiosInstance from "../services/AxiosInstance";
 
 export const login = (email, password) => async (dispatch) => {
-    const config = {
-        headers: {
-            "Content-Type": "application/json",
-        },
-    };
-
     const body = JSON.stringify({ email, password });
 
     try {
-        const res = await axios.post(`/token/`, body, config);
+        const res = await axiosInstance.post(`/token/`, body);
 
         dispatch({
             type: LOGIN_SUCCESS,
@@ -38,12 +33,6 @@ export const login = (email, password) => async (dispatch) => {
 export const signup =
     ({ first_name, last_name, email, password, username }) =>
     async (dispatch) => {
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
-
         const body = JSON.stringify({
             first_name,
             last_name,
@@ -53,7 +42,7 @@ export const signup =
         });
 
         try {
-            const res = await axios.post(`/register`, body, config);
+            const res = await axiosInstance.post(`/register/`, body);
 
             dispatch({
                 type: SIGNUP_SUCCESS,

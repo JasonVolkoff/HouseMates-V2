@@ -7,7 +7,8 @@ import {
 } from "../actions/types";
 
 const initialState = {
-    token: localStorage.getItem("token"),
+    access_token: localStorage.getItem("access_token"),
+    refresh_token: localStorage.getItem("refresh_token"),
     isAuthenticated: null,
     loading: false,
 };
@@ -17,12 +18,14 @@ export default function (state = initialState, action) {
 
     switch (type) {
         case LOGIN_SUCCESS:
-            localStorage.setItem("token", payload.access);
+            localStorage.setItem("access_token", payload.access);
+            localStorage.setItem("refresh_token", payload.refresh);
             return {
                 ...state,
                 isAuthenticated: true,
                 loading: false,
-                token: payload.access,
+                access_token: payload.access,
+                refresh_token: payload.refresh,
             };
         case SIGNUP_SUCCESS:
             return {
@@ -33,10 +36,12 @@ export default function (state = initialState, action) {
         case SIGNUP_FAIL:
         case LOGIN_FAIL:
         case LOGOUT:
-            localStorage.removeItem("token");
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
             return {
                 ...state,
-                token: null,
+                refresh_token: null,
+                access_token: null,
                 isAuthenticated: false,
                 loading: false,
             };

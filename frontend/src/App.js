@@ -15,11 +15,25 @@ const App = () => (
         <Router>
             <Layout>
                 <Routes>
-                    <PrivateRoute path="/" element={HomePage} />
-                    <PrivateRoute path="/my-house" element={HousePage} />
-                    <Route path="/login" element={LoginPage} />
-                    <Route path="/signup" element={SignUpPage} />
-                    <Route element={NotFound} />
+                    <Route
+                        path="/"
+                        element={
+                            <PrivateRoute>
+                                <HomePage />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/my-house"
+                        element={
+                            <PrivateRoute>
+                                <HousePage />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/signup" element={<SignUpPage />} />
+                    <Route element={<NotFound />} />
                 </Routes>
             </Layout>
         </Router>

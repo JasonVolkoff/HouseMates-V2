@@ -6,7 +6,7 @@ import { setAlert } from "../actions/alert";
 import { signup } from "../actions/auth";
 import PropTypes from "prop-types";
 
-const SignUp = ({ setAlert, signup, isAuthenticated }) => {
+const SignUpPage = ({ setAlert, signup, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         first_name: "",
         last_name: "",
@@ -16,7 +16,8 @@ const SignUp = ({ setAlert, signup, isAuthenticated }) => {
         password2: "",
     });
 
-    const { first_name, last_name, username, email, password } = formData;
+    const { first_name, last_name, username, email, password, password2 } =
+        formData;
 
     const onChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -117,7 +118,7 @@ const SignUp = ({ setAlert, signup, isAuthenticated }) => {
     );
 };
 
-SignUp.propTypes = {
+SignUpPage.propTypes = {
     setAlert: PropTypes.func.isRequired,
     signup: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
@@ -127,4 +128,4 @@ const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { setAlert, signup })(SignUp);
+export default connect(mapStateToProps, { setAlert, signup })(SignUpPage);

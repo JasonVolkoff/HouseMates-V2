@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
     const authLinks = (
         <Fragment>
-            <a className="navbar__top__auth__link" onClick={logout} href="#">
+            <a className="navbar__top__auth__link" onClick={logout} href="/">
                 Logout
             </a>
         </Fragment>
@@ -41,14 +41,6 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
                     <li className="navbar__bottom__item">
                         <NavLink className="navbar__bottom__item__link" to="/">
                             Home Page
-                        </NavLink>
-                    </li>
-                    <li className="navbar__bottom__item">
-                        <NavLink
-                            className="navbar__bottom__item__link"
-                            to="/profile"
-                        >
-                            Profile
                         </NavLink>
                     </li>
                     <li className="navbar__bottom__item">
