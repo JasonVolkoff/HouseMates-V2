@@ -1,10 +1,10 @@
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
-from rest_framework import status
+from rest_framework import status, authentication
 from django.contrib import auth
-from ..models.user.serializers import RegisterSerializer, LoginSerializer
-# Create your views here.
+from ..models.user.serializers import RegisterSerializer, UserSerializer
 
 class RegisterAPIView(APIView):
     permission_classes = [AllowAny]
@@ -20,17 +20,8 @@ class RegisterAPIView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class LoginAPIView(APIView):
-    serializer_class = LoginSerializer
+class CurrentUserAPIView(APIView):
 
-    def post(self, request):
-        data = request.data
-        email = data.get('email', '')
-        password = data.get('password', '')
-        user = auth.authenticate(email=email, password=password)
-
-        if user:
-            serializer = LoginSerializer(user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-
-        return Response({'message': 'Invalid credentials, try again'}, status=status.HTTP_401_UNAUTHORIZED)
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data, status=status.HTTP_200_OK)

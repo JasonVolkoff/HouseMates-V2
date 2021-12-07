@@ -5,7 +5,7 @@ const baseURL = "/api";
 const axiosInstance = axios.create({
     baseURL: baseURL,
     headers: {
-        Authorization: "JWT " + localStorage.getItem("access_token"),
+        Authorization: "Bearer " + localStorage.getItem("access_token"),
         "Content-type": "application/json",
         accept: "application/json",
     },
