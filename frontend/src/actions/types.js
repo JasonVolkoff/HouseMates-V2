@@ -7,3 +7,5 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const GET_USER = "GET_USER";
 export const LOADING = "LOADING";
 export const LOGOUT = "LOGOUT";
+export const REFRESH_SUCCESS = "REFRESH";
+export const REFRESH_FAIL = "REFRESH_FAIL";

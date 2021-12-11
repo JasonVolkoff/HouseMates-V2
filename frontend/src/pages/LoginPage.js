@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { login } from "../actions/auth";
+import { login, refresh } from "../actions/auth";
 
 const LoginPage = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
@@ -57,6 +57,7 @@ const LoginPage = ({ login, isAuthenticated }) => {
                 </div>
                 <button className="auth__form__button">Login</button>
             </form>
+
             <p className="auth__authtext">
                 Don't have an account?{" "}
                 <Link className="auth__authtext__link" to="/signup">

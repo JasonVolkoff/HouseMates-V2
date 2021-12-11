@@ -1,4 +1,3 @@
-import jwt_decode from "jwt-decode";
 import {
     SIGNUP_SUCCESS,
     SIGNUP_FAIL,
@@ -7,14 +6,18 @@ import {
     LOGOUT,
     LOADING,
     GET_USER,
+    REFRESH_SUCCESS,
+    REFRESH_FAIL,
 } from "../actions/types";
 
-const initialName = localStorage.getItem("name")
-    ? JSON.parse(localStorage.getItem("name"))
-    : null;
-
 const initialState = {
-    name: initialName,
+    first_name: null,
+    last_name: null,
+    username: null,
+    is_active: null,
+    is_staff: null,
+    is_superuser: null,
+    email: null,
     isAuthenticated: null,
     loading: false,
     errors: null,
@@ -37,13 +40,21 @@ export default function (state = initialState, action) {
                 ...state,
             };
         case GET_USER:
-            console.log(payload);
             return {
                 ...state,
                 isAuthenticated: true,
                 loading: false,
+                email: payload.email,
+                first_name: payload.first_name,
+                last_name: payload.last_name,
+                username: payload.username,
+                is_active: payload.is_active,
+                is_staff: payload.is_staff,
+                is_superuser: payload.is_superuser,
             };
         case LOGIN_FAIL:
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
             return {
                 ...state,
                 errors: payload.errors,
@@ -56,12 +67,30 @@ export default function (state = initialState, action) {
                 erros: null,
             };
         case SIGNUP_FAIL:
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
             return {
                 ...state,
                 errors: payload.errors,
                 loading: false,
             };
-
+        case REFRESH_SUCCESS:
+            localStorage.setItem("access_token", payload.access);
+            localStorage.setItem("refresh_token", payload.refresh);
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: true,
+            };
+        case REFRESH_FAIL:
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: false,
+                errors: payload.errors,
+            };
         case LOGOUT:
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");

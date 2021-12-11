@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useSelector, useLayoutEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NotFound from "./components/NotFound";
 import Layout from "./hocs/Layout";
@@ -7,11 +7,17 @@ import HomePage from "./pages/HomePage";
 import HousePage from "./pages/HousePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
-import { Provider } from "react-redux";
-import store from "./store";
+import { useDispatch } from "react-redux";
 
-const App = () => (
-    <Provider store={store}>
+import { refresh } from "./actions/auth";
+
+const App = () => {
+    const dispatch = useDispatch();
+    useLayoutEffect(() => {
+        dispatch(refresh());
+    }, []);
+
+    return (
         <Router>
             <Layout>
                 <Routes>
@@ -37,7 +43,6 @@ const App = () => (
                 </Routes>
             </Layout>
         </Router>
-    </Provider>
-);
-
+    );
+};
 export default App;

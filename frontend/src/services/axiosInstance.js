@@ -1,11 +1,22 @@
 import axios from "axios";
+import { REFRESH_FAIL, REFRESH_SUCCESS } from "../actions/types";
+import { useDispatch } from "react-redux";
 
 const baseURL = "/api";
+
+export const axiosAuth = axios.create({
+    baseURL: baseURL,
+    headers: {
+        Authorization: "BEARER " + localStorage.getItem("access_token"),
+        "Content-type": "application/json",
+        accept: "application/json",
+    },
+});
 
 const axiosInstance = axios.create({
     baseURL: baseURL,
     headers: {
-        Authorization: "Bearer " + localStorage.getItem("access_token"),
+        Authorization: "BEARER " + localStorage.getItem("access_token"),
         "Content-type": "application/json",
         accept: "application/json",
     },
@@ -14,13 +25,14 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
         const originalRequest = error.config;
-
+        console.log("Original request: ", originalRequest);
         // Prevent infinite loops early
         if (
             error.response.status === 401 &&
-            originalRequest.url === baseURL + "token/refresh/"
+            originalRequest.url === "token/refresh/"
         ) {
-            window.location.href = "/login";
+            console.log("Prevent infinite loops");
+            //window.location.href = "/login";
             return Promise.reject(error);
         }
 
@@ -29,6 +41,7 @@ axiosInstance.interceptors.response.use(
             error.response.status === 401 &&
             error.response.statusText === "Unauthorized"
         ) {
+            console.log("In interceptor");
             const refreshToken = localStorage.getItem("refresh_token");
 
             if (refreshToken) {
@@ -36,30 +49,33 @@ axiosInstance.interceptors.response.use(
 
                 // exp date in token is expressed in seconds, while now() returns milliseconds:
                 const now = Math.ceil(Date.now() / 1000);
-                console.log(tokenParts.exp);
-
+                console.log("Intercepter token: ", tokenParts.exp);
+                const dispatch = useDispatch();
                 if (tokenParts.exp > now) {
+                    dispatch({ type: LOADING });
+                    console.log("Unexpired token found; refreshing");
                     return axiosInstance
                         .post("/token/refresh/", { refresh: refreshToken })
                         .then((response) => {
-                            localStorage.setItem(
-                                "access_token",
-                                response.data.access
-                            );
-                            localStorage.setItem(
-                                "refresh_token",
-                                response.data.refresh
-                            );
-
+                            dispatch({
+                                type: REFRESH_SUCCESS,
+                                payload: response.data,
+                            });
                             axiosInstance.defaults.headers["Authorization"] =
-                                "JWT " + response.data.access;
+                                "BEARER " + response.data.access;
                             originalRequest.headers["Authorization"] =
-                                "JWT " + response.data.access;
+                                "BEARER " + response.data.access;
 
                             return axiosInstance(originalRequest);
                         })
                         .catch((err) => {
-                            console.log(err);
+                            console.log("Error refreshing; failed");
+                            dispatch({
+                                type: REFRESH_FAIL,
+                                payload: err,
+                            });
+
+                            dispatch(setAlert("Error Authenticating", "error"));
                         });
                 } else {
                     console.log(
@@ -67,11 +83,11 @@ axiosInstance.interceptors.response.use(
                         tokenParts.exp,
                         now
                     );
-                    window.location.href = "/login";
+                    //window.location.href = "/login";
                 }
             } else {
                 console.log("Refresh token not available.");
-                window.location.href = "/login";
+                //window.location.href = "/login";
             }
         }
 
