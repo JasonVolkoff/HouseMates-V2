@@ -14,6 +14,7 @@ import { axiosAuth } from "../services/AxiosInstance";
 import { useDispatch } from "react-redux";
 
 export const login = (email, password) => async (dispatch) => {
+    console.log("attempt login");
     const body = JSON.stringify({ email, password });
     dispatch({ type: LOADING });
     try {

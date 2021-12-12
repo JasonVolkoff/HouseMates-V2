@@ -39,7 +39,7 @@ const App = () => {
                     />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignUpPage />} />
-                    <Route element={<NotFound />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </Layout>
         </Router>
