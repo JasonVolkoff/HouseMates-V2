@@ -111,47 +111,5 @@ const Navbar = () => {
             <Alert />
         </div>
     );
-
-    // return (
-    //     <div>
-    //         <nav className="navbar">
-    //             <div className="navbar__top">
-    //                 <div className="navbar__top__auth">
-    //                     {!loading && (
-    //                         <Fragment>
-    //                             {isAuthenticated ? authLinks : guestLinks}
-    //                         </Fragment>
-    //                     )}
-    //                 </div>
-    //             </div>
-    //             <div className="navbar__bottom">
-    //                 <li className="navbar__bottom__item">
-    //                     <NavLink className="navbar__bottom__item__link" to="/">
-    //                         Home Page
-    //                     </NavLink>
-    //                 </li>
-    //                 <li className="navbar__bottom__item">
-    //                     <NavLink
-    //                         className="navbar__bottom__item__link"
-    //                         to="/my-house"
-    //                     >
-    //                         My House
-    //                     </NavLink>
-    //                 </li>
-    //             </div>
-    //         </nav>
-    //         <Alert />
-    //     </div>
-    // );
 };
 export default Navbar;
-// Navbar.propTypes = {
-//     logout: PropTypes.func.isRequired,
-//     auth: PropTypes.object.isRequired,
-// };
-
-// const mapStateToProps = (state) => ({
-//     auth: state.auth,
-// });
-
-// export default connect(mapStateToProps, { logout })(Navbar);

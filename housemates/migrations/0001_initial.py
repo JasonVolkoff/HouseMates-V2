@@ -3,7 +3,7 @@
 import django.contrib.auth.validators
 from django.db import migrations, models
 import django.utils.timezone
-import housemates.models.user.user
+import housemates.models.user
 
 
 class Migration(migrations.Migration):
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 'abstract': False,
             },
             managers=[
-                ('objects', housemates.models.user.user.UserManager()),
+                ('objects', housemates.models.user.UserManager()),
             ],
         ),
     ]

@@ -1,17 +1,6 @@
 import { setAlert } from "./alert";
-import {
-    SIGNUP_SUCCESS,
-    SIGNUP_FAIL,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOGOUT,
-    LOADING,
-    GET_USER,
-    REFRESH_SUCCESS,
-    REFRESH_FAIL,
-} from "./types";
+import { authentication, user, LOADING } from "./types";
 import { axiosAuth } from "../services/AxiosInstance";
-import { useDispatch } from "react-redux";
 
 export const login = (email, password) => async (dispatch) => {
     console.log("attempt login");
@@ -21,21 +10,21 @@ export const login = (email, password) => async (dispatch) => {
         const tokenResponse = await axiosAuth.post(`/token/`, body);
         // TODO: add success validation
         dispatch({
-            type: LOGIN_SUCCESS,
+            type: authentication.LOGIN_SUCCESS,
             payload: tokenResponse.data,
         });
         localStorage.setItem("access_token", tokenResponse.data.access);
         localStorage.setItem("refresh_token", tokenResponse.data.refresh);
         const userResponse = await axiosAuth.get(`/login/`, body);
         dispatch({
-            type: GET_USER,
+            type: user.GET_USER,
             payload: userResponse.data,
         });
 
         dispatch(setAlert("Authenticated successfully", "success"));
     } catch (err) {
         dispatch({
-            type: LOGIN_FAIL,
+            type: authentication.LOGIN_FAIL,
             payload: err,
         });
 
@@ -58,14 +47,14 @@ export const signup =
             const res = await axiosAuth.post(`/register/`, body);
 
             dispatch({
-                type: SIGNUP_SUCCESS,
+                type: authentication.SIGNUP_SUCCESS,
                 payload: res.data,
             });
 
             dispatch(login(email, password));
         } catch (err) {
             dispatch({
-                type: SIGNUP_FAIL,
+                type: authentication.SIGNUP_FAIL,
                 payload: err,
             });
 
@@ -75,7 +64,7 @@ export const signup =
 
 export const logout = () => (dispatch) => {
     dispatch(setAlert("logout successful.", "success"));
-    dispatch({ type: LOGOUT });
+    dispatch({ type: authentication.LOGOUT });
 };
 
 export const refresh = () => async (dispatch) => {
@@ -94,20 +83,20 @@ export const refresh = () => async (dispatch) => {
                     refresh: refreshToken,
                 });
                 dispatch({
-                    type: REFRESH_SUCCESS,
+                    type: authentication.REFRESH_SUCCESS,
                     payload: res.data,
                 });
                 console.log("In Refresh");
             } catch (err) {
                 dispatch({
-                    type: REFRESH_FAIL,
+                    type: authentication.REFRESH_FAIL,
                     payload: err,
                 });
                 dispatch(setAlert("Error Authenticating", "error"));
             }
         } else {
             dispatch({
-                type: REFRESH_FAIL,
+                type: authentication.REFRESH_FAIL,
                 payload: err,
             });
             dispatch(setAlert("Error Authenticating", "error"));

@@ -1,14 +1,4 @@
-import {
-    SIGNUP_SUCCESS,
-    SIGNUP_FAIL,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOGOUT,
-    LOADING,
-    GET_USER,
-    REFRESH_SUCCESS,
-    REFRESH_FAIL,
-} from "../actions/types";
+import { authentication, user, LOADING } from "../actions/types";
 
 const initialState = {
     first_name: null,
@@ -33,13 +23,13 @@ export default function (state = initialState, action) {
                 loading: true,
                 errors: null,
             };
-        case LOGIN_SUCCESS:
+        case authentication.LOGIN_SUCCESS:
             localStorage.setItem("access_token", payload.access);
             localStorage.setItem("refresh_token", payload.refresh);
             return {
                 ...state,
             };
-        case GET_USER:
+        case user.GET_USER:
             return {
                 ...state,
                 isAuthenticated: true,
@@ -52,7 +42,7 @@ export default function (state = initialState, action) {
                 is_staff: payload.is_staff,
                 is_superuser: payload.is_superuser,
             };
-        case LOGIN_FAIL:
+        case authentication.LOGIN_FAIL:
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             return {
@@ -60,13 +50,13 @@ export default function (state = initialState, action) {
                 errors: payload.errors,
                 loading: false,
             };
-        case SIGNUP_SUCCESS:
+        case authentication.SIGNUP_SUCCESS:
             return {
                 ...state,
                 loading: true,
                 erros: null,
             };
-        case SIGNUP_FAIL:
+        case authentication.SIGNUP_FAIL:
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             return {
@@ -74,7 +64,7 @@ export default function (state = initialState, action) {
                 errors: payload.errors,
                 loading: false,
             };
-        case REFRESH_SUCCESS:
+        case authentication.REFRESH_SUCCESS:
             localStorage.setItem("access_token", payload.access);
             localStorage.setItem("refresh_token", payload.refresh);
             return {
@@ -82,7 +72,7 @@ export default function (state = initialState, action) {
                 loading: false,
                 isAuthenticated: true,
             };
-        case REFRESH_FAIL:
+        case authentication.REFRESH_FAIL:
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             return {
@@ -91,7 +81,7 @@ export default function (state = initialState, action) {
                 isAuthenticated: false,
                 errors: payload.errors,
             };
-        case LOGOUT:
+        case authentication.LOGOUT:
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
             return {
