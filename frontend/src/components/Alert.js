@@ -1,30 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { textAlign } from "@mui/system";
+import AlertComponent from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 const Alert = ({ alerts }) =>
     alerts !== null &&
     alerts.length > 0 &&
     alerts.map((alert) => (
-        <div
-            style={{
+        <AlertComponent
+            sx={{
                 marginTop: "20px",
                 padding: "5px",
                 borderRadius: "10px",
-                backgroundColor: "#f76161",
                 width: "385px",
-                height: "40px",
+                height: "46px",
                 textAlign: "center",
                 position: "fixed",
                 left: "50%",
                 transform: "translate(-50%, 0)",
             }}
             key={alert.id}
-            className={`alert alert--${alert.alertType}`}
+            severity={alert.alertType}
         >
             {alert.msg}
-        </div>
+        </AlertComponent>
     ));
 
 Alert.propTypes = {

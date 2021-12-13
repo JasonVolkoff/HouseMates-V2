@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .user import User
+from housemates.models.user import User
 
 class RegisterSerializer(serializers.ModelSerializer):
     
