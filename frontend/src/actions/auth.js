@@ -1,5 +1,5 @@
 import { setAlert } from "./alert";
-import { authentication, user, LOADING } from "./types";
+import { authentication, user, LOADING, TOAST_TYPE } from "./types";
 import { axiosAuth } from "../services/AxiosInstance";
 
 export const login = (email, password) => async (dispatch) => {
@@ -21,14 +21,14 @@ export const login = (email, password) => async (dispatch) => {
             payload: userResponse.data,
         });
 
-        dispatch(setAlert("Authenticated successfully", "success"));
+        dispatch(setAlert("Authenticated successfully", TOAST_TYPE.ERROR));
     } catch (err) {
         dispatch({
             type: authentication.LOGIN_FAIL,
             payload: err,
         });
 
-        dispatch(setAlert("Error Authenticating", "error"));
+        dispatch(setAlert("Error Authenticating", TOAST_TYPE.ERROR));
     }
 };
 
@@ -58,12 +58,12 @@ export const signup =
                 payload: err,
             });
 
-            dispatch(setAlert("Error Authenticating", "error"));
+            dispatch(setAlert("Error Authenticating", TOAST_TYPE.ERROR));
         }
     };
 
 export const logout = () => (dispatch) => {
-    dispatch(setAlert("logout successful.", "success"));
+    dispatch(setAlert("logout successful.", TOAST_TYPE.SUCCESS));
     dispatch({ type: authentication.LOGOUT });
 };
 
