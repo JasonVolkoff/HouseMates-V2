@@ -26,6 +26,14 @@ export const authentication = {
 };
 // Misc
 export const LOADING = "LOADING";
+export const DONE_LOADING = "DONE_LOADING";
+export const ERROR = "ERROR";
+export const TOAST_TYPE = {
+    ERROR: "error",
+    INFO: "info",
+    SUCCESS: "success",
+    WARNING: "warning",
+};
 // User
 export const GET_USER = "GET_USER";
 export const user = {

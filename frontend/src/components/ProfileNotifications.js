@@ -13,16 +13,16 @@ const ProfileNotifications = () => {
                 columnSpacing={{ xs: 1, sm: 2, md: 3 }}
             >
                 <Grid item xs={6}>
-                    <Item>1</Item>
+                    1
                 </Grid>
                 <Grid item xs={6}>
-                    <Item>2</Item>
+                    2
                 </Grid>
                 <Grid item xs={6}>
-                    <Item>3</Item>
+                    3
                 </Grid>
                 <Grid item xs={6}>
-                    <Item>4</Item>
+                    4
                 </Grid>
             </Grid>
         </Box>
