@@ -22,4 +22,7 @@ class CurrentUserAPIView(APIView):
 
     def get(self, request):
         serializer = UserSerializer(request.user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        context = {
+            'user': serializer.data
+        }
+        return Response(context, status=status.HTTP_200_OK)
