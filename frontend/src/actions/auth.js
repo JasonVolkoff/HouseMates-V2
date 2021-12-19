@@ -15,13 +15,13 @@ export const login = (email, password) => async (dispatch) => {
         });
         localStorage.setItem("access_token", tokenResponse.data.access);
         localStorage.setItem("refresh_token", tokenResponse.data.refresh);
-        const userResponse = await axiosAuth.get(`/login/`, body);
+        const userResponse = await axiosAuth.get(`/get-user/`, body);
         dispatch({
             type: user.GET_USER,
             payload: userResponse.data,
         });
 
-        dispatch(setAlert("Authenticated successfully", TOAST_TYPE.ERROR));
+        dispatch(setAlert("Authenticated successfully", TOAST_TYPE.SUCCESS));
     } catch (err) {
         dispatch({
             type: authentication.LOGIN_FAIL,
@@ -63,7 +63,7 @@ export const signup =
     };
 
 export const logout = () => (dispatch) => {
-    dispatch(setAlert("logout successful.", TOAST_TYPE.SUCCESS));
+    dispatch(setAlert("Logout successful.", TOAST_TYPE.SUCCESS));
     dispatch({ type: authentication.LOGOUT });
 };
 

@@ -1,11 +1,15 @@
 from django.db import models
-from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
+from django.contrib.auth.models import (
+    AbstractBaseUser, BaseUserManager, PermissionsMixin)
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
+from housemates.models.house import House
+
 # Modified and extended default Django User model
 # see JWT at bottom
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -43,29 +47,34 @@ class UserManager(BaseUserManager):
 
         return self._create_user(username, email, password, **extra_fields)
 
+
 class User(AbstractBaseUser, PermissionsMixin):
-    
+
     class Meta:
         app_label = 'housemates'
-        
+
     username_validator = UnicodeUsernameValidator()
 
     username = models.CharField(_('username'),
-        max_length=150,
-        unique=True,
-        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
-        validators=[username_validator],
-        error_messages={
-            'unique': _("A user with that username already exists."),
-        },
+                                max_length=150,
+                                unique=True,
+                                help_text=_(
+                                    'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+                                validators=[username_validator],
+                                error_messages={
+        'unique': _("A user with that username already exists."),
+    },
     )
     email = models.EmailField(_('email address'), blank=True, unique=True)
     first_name = models.CharField(max_length=32, blank=True)
     last_name = models.CharField(max_length=64, blank=True)
+    house = models.ForeignKey(
+        House, related_name='users', on_delete=models.SET_NULL, blank=True, null=True)
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
-        help_text=_('Designates whether the user can log into this admin site.'),
+        help_text=_(
+            'Designates whether the user can log into this admin site.'),
     )
     # TODO: Set default is_active to False -> then True upon email verification.
     is_active = models.BooleanField(

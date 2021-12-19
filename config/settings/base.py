@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import environ
 import os
-
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'django.contrib.auth',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -120,10 +120,9 @@ REST_FRAMEWORK = {
     )
 }
 
-from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -203,5 +202,5 @@ AUTH_USER_MODEL = "housemates.User"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:8000"
-] 
+]
 CORS_ALLOW_HEADERS = ["*"]
