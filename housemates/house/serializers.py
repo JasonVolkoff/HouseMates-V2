@@ -7,14 +7,15 @@ class HouseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = House
-        fields = ('nickname',)
+        fields = ('id', 'nickname', 'users')
 
 
 class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('name', 'price', 'original_buyer')
+        fields = ('id', 'name', 'price', 'original_buyer', 'location',
+                  'updated_at', 'created_at')
 
     def create(self, validated_data):
         instance = super(ItemSerializer, self).create(validated_data)
