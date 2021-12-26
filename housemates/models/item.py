@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db import models
+from django.conf import settings
 from housemates.models.base_model import BaseModel
 from housemates.models.house import House
 from housemates.models.user import User
@@ -13,7 +15,7 @@ class Item(BaseModel):
     location = models.ForeignKey(
         House, related_name="items", on_delete=models.SET_NULL, null=True, blank=True)
     previous_owners = models.ManyToManyField(
-        User, related_name="previously_owned_items")
+        settings.AUTH_USER_MODEL, related_name="previously_owned_items")
 
     def __str__(self):
         return self.name
