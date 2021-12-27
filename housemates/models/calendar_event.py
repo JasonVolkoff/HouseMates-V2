@@ -1,15 +1,13 @@
 import datetime
 from typing import List
 from django.db import models
-from django.conf import settings
-
+# Housemates models
 from housemates.models.base_model import BaseModel
-from housemates.models.event_action import EventAction
 
 
 class CalendarEvent(BaseModel):
     RECURRING_CHOICES = (
-        ("NONE", "None")
+        ("NONE", "None"),
         ("DAILY", "Daily"),
         ("WEEKLY", "Weekly"),
         ("BIWEEKLY", "Biweekly"),
@@ -18,9 +16,6 @@ class CalendarEvent(BaseModel):
     )
     repeating_type = models.CharField(max_length=15, choices=RECURRING_CHOICES)
     start_date = models.DateField()
-    users = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="events")
-    event_actions = models.ManyToManyField(EventAction, related_name="event")
 
     def __str__(self):
         return self.repeating_type

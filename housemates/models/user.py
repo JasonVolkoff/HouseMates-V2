@@ -4,11 +4,10 @@ from django.contrib.auth.models import (
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-
+# Housemates models
 from housemates.models.house import House
 
 # Modified and extended default Django User model
-# see JWT at bottom
 
 
 class UserManager(BaseUserManager):
