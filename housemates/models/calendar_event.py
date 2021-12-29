@@ -16,6 +16,7 @@ class CalendarEvent(BaseModel):
     )
     repeating_type = models.CharField(max_length=15, choices=RECURRING_CHOICES)
     start_date = models.DateField()
+    # TODO: Create notifications on a cron job
 
     def __str__(self):
         return self.repeating_type
