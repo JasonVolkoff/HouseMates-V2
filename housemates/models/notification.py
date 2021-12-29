@@ -33,13 +33,3 @@ class Notification(BaseModel):
 
     def __str__(self):
         return self.notification_type
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self._create()
-
-        return super(Notification, self).save(*args, **kwargs)
-
-    def _create(self):
-        if self.notification_type == "HOUSE_INVITE":
-            pass

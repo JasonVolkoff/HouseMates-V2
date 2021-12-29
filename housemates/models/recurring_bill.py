@@ -4,7 +4,6 @@ from django.db import models
 from housemates.models.base_model import BaseModel
 from housemates.models.calendar_event import CalendarEvent
 from housemates.models.house import House
-from housemates.models.invite import Invite
 
 
 class RecurringBill(BaseModel):
@@ -28,7 +27,5 @@ class RecurringBill(BaseModel):
         settings.AUTH_USER_MODEL, related_name="recurring_bills")
     house = models.ForeignKey(
         House, related_name="recurring_bills", on_delete=models.SET_NULL, blank=True, null=True)
-    invites = models.ForeignKey(
-        Invite, related_name="recurring_bill", on_delete=models.SET_NULL, null=True, blank=True)
     calendar_event = models.OneToOneField(
         CalendarEvent, related_name="recurring_bill", on_delete=models.CASCADE)
