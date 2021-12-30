@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'frontend',
     'housemates',
-    'housemates.login',
+    'housemates.authentication',
     'housemates.house',
     'housemates.profile',
     'rest_framework',

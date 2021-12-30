@@ -29,3 +29,17 @@ class RecurringBill(BaseModel):
         House, related_name="recurring_bills", on_delete=models.SET_NULL, blank=True, null=True)
     calendar_event = models.OneToOneField(
         CalendarEvent, related_name="recurring_bill", on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        """
+        On init save, this will handle creating the first actual bill for the 
+        creator, as well as other users (if they exist). If other users exist,
+        it will also send them an invite.
+        """
+        if not self.id:
+            self._handle_init_bill_and_invites()
+
+        return super(RecurringBill, self).save(*args, **kwargs)
+
+    def _handle_init_bill_and_invites(self):
+        pass
